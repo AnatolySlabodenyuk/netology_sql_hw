@@ -1,1 +1,2 @@
-# netology_sql_hw
+### Решение 
+<img src="./sql_hw.png"/>

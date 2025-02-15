@@ -1,2 +1,2 @@
 ### Решение 
-<img src="./sql_hw.png"/>
+<img src="./new.png"/>

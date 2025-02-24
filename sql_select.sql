@@ -8,7 +8,7 @@ LIMIT 1;
 -- Название треков, продолжительность которых не менее 3,5 минут
 SELECT title, duration
 FROM tracks
-WHERE duration > 210;
+WHERE duration >= 210;
 
 -- Названия сборников, вышедших в период с 2018 по 2020 год включительно
 SELECT title
@@ -21,10 +21,30 @@ FROM artists
 WHERE name NOT LIKE '% %';
 
 -- Название треков, которые содержат слово «мой» или «my»
+-- 1
+-- Известный способ
 SELECT *
 FROM tracks
-WHERE title LIKE '%мой%'
-   OR title LIKE '%my%';
+-- my
+WHERE title ILIKE 'my %' /* слово в начале строки */
+   OR title ILIKE '% my' /* слово в конце строки */
+   OR title ILIKE '% my %' /* слово в середине строки */
+   OR title ILIKE 'my' /* название трека состоит из одного искомого слова */
+-- мой
+   OR title ILIKE 'мой %' /* слово в начале строки */
+   OR title ILIKE '% мой' /* слово в конце строки */
+   OR title ILIKE '% мой %' /* слово в середине строки */
+   OR title ILIKE 'мой' /* название трека состоит из одного искомого слова */
+-- 2
+-- Использование string_to_array
+SELECT *
+FROM tracks
+WHERE string_to_array(LOWER(tracks.title), ' ') && ARRAY ['мой', 'my'];
+-- 3
+-- Использование ~*
+SELECT *
+FROM tracks
+WHERE tracks.title ~* '\y(my|мой)\y';
 
 
 -- Задание 3
